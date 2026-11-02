@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
+raw_videos/
+raw_videos_p2/
+*.mov
+*.MOV
+*.mp4
+results/*.pt
+.idea/
