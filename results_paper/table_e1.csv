@@ -1,0 +1,4 @@
+model,accuracy,macro_f1,train_min
+Simple CNN,0.302 ± 0.039,0.223 ± 0.042,2.7
+ResNet18,0.965 ± 0.005,0.966 ± 0.004,2.6
+DINOv2 ViT-S/14,0.995 ± 0.004,0.995 ± 0.004,8.8
