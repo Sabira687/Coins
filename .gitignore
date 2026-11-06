@@ -9,3 +9,9 @@ raw_videos_p2/
 *.mp4
 results/*.pt
 .idea/
+results_a2/ckpt.pt
+results_a2_fast/
+app/certs/
+a2/report/node_modules/
+a2/report/package-lock.json
+a2/report/shots/
