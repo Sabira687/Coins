@@ -10,7 +10,6 @@ This repository contains a two-part image dataset of Kazakhstan tenge coins (5, 
 | Paper experiments (specimen vs. denomination) | `paper_experiments.ipynb`, `results_paper/` |
 | Assignment 2: final DINOv2 model | `a2_final_training.ipynb`, `results_a2/`, `a2/RUN_FINAL_TRAINING.md` |
 | Assignment 2: phone app | `app/` (start with `app/README.md`) |
-| Assignment 2: report (Russian draft) | `a2/report/Assignment2_report_ru.docx` |
 
 ## Research question
 
@@ -131,9 +130,12 @@ Per-setup and per-coin counts: `results_paper/p1_counts.csv`, `results_paper/p2_
 ├── app/                      # Tenge Scan: FastAPI server + canvas front end (see app/README.md)
 ├── size_test/                # photos of coins on squared paper and the diameter measurement
 ├── a2/                       # Assignment 2: report (a2/report/), run guide for the final training
-├── related_work.md           # Related Work section of the paper
-└── PAPER_STRUCTURE.md        # paper outline
+├── paper/                    # paper drafts: outline, Related Work
 ```
+
+## Data and weights
+
+Images and model weights are hosted on Google Drive, not in git: see [DATASET.md](DATASET.md).
 
 ## Reproducing the experiments
 

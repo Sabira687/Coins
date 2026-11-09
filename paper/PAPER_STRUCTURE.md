@@ -1,0 +1,95 @@
+# Paper structure
+
+**Working title (to be chosen):**
+- Recognising Coins, Not Specimens: Kazakhstan Tenge Classification with Few Physical Samples
+- Do Deep Models Recognise the Denomination or the Coin? Evidence from Kazakhstan Tenge
+- Kazakhstan Tenge Coin Classification: Dataset, Benchmark and Generalisation to Unseen Specimens
+
+**Target journal:** ELCVIA – Electronic Letters on Computer Vision and Image Analysis. Article type "ARTICLE": 8–12 pages recommended, single-spaced, 11 pt, figures and tables placed in the text, PDF file, LaTeX 2e template. Submission through the journal site (registration of the main author required). Details in `PAPER_SUBMISSION_ru.md`.
+
+**Status:** ✅ can be written now · ⏳ waits for experiment results
+
+---
+
+## Abstract ⏳
+The task, the two-part controlled design, the main numbers from both experiments and the answer to the research question in one sentence. Written last.
+
+## 1. Introduction ✅
+- Why tenge coins are a non-trivial case: 20 and 50 tenge share colour and design and differ mainly in diameter; 10, 20 and 50 tenge share the reverse emblem.
+- Practical uses: coin counting, assistive apps for visually impaired users.
+- The general problem: datasets built from a few physical objects may teach a model the objects rather than the class.
+- Preliminary observation: one coin per denomination, ResNet18 at 0.969, equal accuracy on both sides, all errors on 20 tenge.
+- Research question and the idea of varying one factor at a time.
+- Contributions (without result numbers) and an outline of the paper.
+
+## 2. Related Work ✅
+- Coin recognition: hand-crafted features, then CNN-based approaches.
+- Transfer learning on small datasets.
+- Self-supervised vision transformers (ViT, DINOv2).
+- Shortcut learning and data leakage in evaluation.
+- Explainability with Grad-CAM.
+
+Only verified references.
+
+## 3. Dataset ✅
+### 3.1 Collection pipeline
+Smartphone videos instead of photos; sharpest-frame selection in 20 time windows; three-step coin localisation (Hough circle → ellipse fit on brightness and saturation edges → nearest frame); square crop with a random margin of 1.3–3.0 coin radii; manual check; splitting by video or coin rather than by frame.
+
+### 3.2 Part 1: one specimen, varied conditions
+One coin per denomination (`c0`), six background × lighting setups (table), both sides, 60 videos, 1109 images (`results_paper/p1_counts.csv`). Notes on recording: camera tilt up to about 45°, changing distance, coin turned by hand.
+
+### 3.3 Part 2: varied specimens, fixed conditions
+Eight coins per denomination (`c1`–`c8`, 40 coins), one white background, same place, same phone, constant lighting; 1585 images (counts per coin in `results_paper/p2_counts.csv`). The Part 1 coin is not among them. Explicit justification for fixing the conditions. Table of specimens (issue year, condition: [TODO from co-author]). Mention that the Part 2 videos were recorded by the co-author.
+
+## 4. Models and Training ✅
+Simple CNN, ResNet18 and DINOv2 ViT-S/14; preprocessing; augmentation with a reason for each choice (full rotation, weak colour jitter, no flips); two-stage fine-tuning for pretrained models; hyperparameter table; best-epoch selection and early stopping on validation loss.
+
+## 5. Experimental Protocol ✅
+### 5.1 Experiment 1: new conditions, same coin
+Train on setups 2, 4, 5, 6; validate on 3; test on 1 (no daylight in training). Three seeds.
+
+### 5.2 Experiment 2: new coins, same conditions
+Leave-one-specimen-out over 8 folds (test coin k, validation coin k+1, the other six P2 coins for training; seed 42). P1-trained and P2-trained versions of each model evaluated on the same test coins, with the same validation coin and equal training-set sizes. Why the P1 training set includes the white background, and why this is not leakage.
+
+### 5.3 Metrics
+Accuracy and macro-F1 as mean ± std; confusion matrices; per-coin and per-side accuracy; definition of the specimen gap.
+
+## 6. Results: Generalisation Across Conditions ⏳
+Experiment 1 table for the three models (mean ± std over seeds) and training curves.
+
+## 7. Results: Generalisation Across Specimens ⏳
+P1-trained vs P2-trained accuracy for each model; specimen gap; per-fold and per-coin accuracy; accuracy by coin side; confusion matrices.
+
+## 8. Error Analysis and Explainability ⏳
+Which denominations and specimens are confused and why (20 vs 50 tenge, loss of absolute size); Grad-CAM of the P1- and P2-trained ResNet18 on the same unseen coins; DINOv2 nearest neighbours showing which training coins a prediction relies on.
+
+## 9. Discussion ⏳
+The answer to the research question; how the three types of pretraining differ in specimen generalisation; practical advice for collecting small object datasets: what to vary first, conditions or objects.
+
+## 10. Limitations ✅
+Single background in Part 2 (by design); different days, people and phones for the two parts; regular issues only; correlated video frames; loss of absolute coin size after cropping; Part 2 validation coin also used for epoch selection of the P1-trained models; eight specimens per denomination, one seed in Experiment 2 and a large spread between folds (about ±0.11).
+
+## 11. Conclusion ⏳
+Main findings in a few sentences and next steps: more specimens and issue years, varied conditions for many specimens, keeping a size reference.
+
+## Data and Code Availability ✅
+Dataset, extraction scripts and experiment notebook in a public GitHub repository.
+
+## References
+Verified sources only.
+
+---
+
+## Planned figures
+
+| Figure | File | Content |
+|---|---|---|
+| Pipeline diagram | to be drawn | video → frame selection → coin localisation → crop |
+| Part 1 setups | samples from Part 1 | one coin in the six setups |
+| Part 2 specimens | `p2_specimens.png` | all 40 coins (obverse) |
+| Augmentation | `augmentation_examples.png` | original image and augmented versions |
+| Experiment 2 accuracy | `e2_accuracy.png` | P1- vs P2-trained models, with the Experiment 1 level |
+| Confusion matrices | `e2_confusion.png` | summed over folds |
+| Per-coin accuracy | `e2_per_coin.png` | accuracy for each denomination × specimen |
+| Grad-CAM | `gradcam_p1_vs_p2.png` | P1- vs P2-trained ResNet18 on the same unseen coins |
+| Nearest neighbours | `dinov2_neighbours.png` | closest training images in the DINOv2 embedding space |

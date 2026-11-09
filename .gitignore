@@ -15,3 +15,12 @@ app/certs/
 a2/report/node_modules/
 a2/report/package-lock.json
 a2/report/shots/
+
+# Large data and weights live on Google Drive (see DATASET.md)
+dataset/
+dataset_p2/
+raw_videos_p2_new/
+*.pt
+results_paper/weights/
+.ipynb_checkpoints/
+a2/report/*.docx
